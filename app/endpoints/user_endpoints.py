@@ -1,0 +1,35 @@
+from fastapi import APIRouter, Depends, status      
+import app.application.models.users as models
+import app.application.models.tokens as tokens
+from app.common.exceptions.exceptions import (
+    EmployeeAlreadyHasUserError,
+    EmployeeNotEligibleError,
+    EmployeeNotFoundError,
+    InvalidCredentialsError,
+)
+from app.application.services.users_service.user_service import UserServices
+from app.infrastructure.dependencies import get_user_service
+
+
+router = APIRouter(prefix="/auth", tags=["auth"])
+
+#signup
+@router.post("/signup", response_model=models.UserResponse, status_code=status.HTTP_201_CREATED)
+def signup(payload:models.UserResponse = Depends(),service: UserServices = Depends(get_user_service)):
+    try:
+        return service.user_signup(payload)
+    except EmployeeNotFoundError :
+        raise EmployeeNotFoundError
+    except EmployeeNotEligibleError:
+        raise EmployeeNotEligibleError
+    except EmployeeAlreadyHasUserError:
+        raise EmployeeAlreadyHasUserError
+    
+
+@router.post("/signin", response_model=tokens.Token)
+def signin(form_data: models.UserLogin= Depends(),service: UserServices = Depends(get_user_service)):
+    try:
+        access_token = service.user_signin(form_data.username, form_data.password)
+    except InvalidCredentialsError:
+        raise InvalidCredentialsError
+    return tokens.Token(access_token=access_token)
