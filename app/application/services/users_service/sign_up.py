@@ -23,5 +23,5 @@ class SignUpService:
         if user_by_emp_id:
             raise EmployeeAlreadyHasUserError("This employee already has a user account")
 
-        return self.repository.create(payload.email, payload.password_hashed, payload.emp_id)
+        return self.repository.create(payload.email, payload.password, payload.emp_id)
     

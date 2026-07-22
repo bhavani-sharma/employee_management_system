@@ -21,3 +21,8 @@ class User_repository:
         self.db.commit()
         self.db.refresh(new_user)
         return new_user
+    
+    def delete(self, email:str)->None:
+        user = self.get_by_email(email)
+        self.db.delete(user)
+        self.db.commit()

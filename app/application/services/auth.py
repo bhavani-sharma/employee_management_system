@@ -11,6 +11,8 @@ from common.data.database import get_db
 import infrastructure.schemas.user_schema as userSchema
 
 
+
+
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -55,3 +57,4 @@ def get_current_user(
     if user is None:
         raise credentials_exc
     return user
+    

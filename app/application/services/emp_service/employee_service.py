@@ -9,7 +9,7 @@ from application.services.emp_service.create_emp import CreateEmployeeService
 from application.services.emp_service.retrieve_emp import GetEmployeeService
 from application.services.emp_service.update_emp import UpdateEmployeesService
 from application.services.emp_service.delete_emp import DeleteEmployeeService
-
+from infrastructure.repositories.user_repositories import User_repository
 # repo = Employee_repository()
 
 class CreateEmployee:
@@ -19,6 +19,7 @@ class CreateEmployee:
         self.retrieve = GetEmployeeService(repo)
         self.update = UpdateEmployeesService(repo)
         self.delete = DeleteEmployeeService(repo)
+        self.user_repo = User_repository(db)
 
     def create_employee(self, payload: Employees.EmployeeCreate, current_user:Users) -> empschema.Employee:
         return self.create.execute(payload, current_user)
@@ -32,7 +33,7 @@ class CreateEmployee:
  
 
     def update_employee(self, employee_id: int, payload: Employees.EmployeeUpdate, current_user:Users) -> empschema.Employee:
-        return self.update.execute(employee_id, payload, current_user)
+        return self.update.execute(employee_id, payload, current_user, self.user_repo)
     
 
     def delete_employee(self, employee_id: str, current_user: Users) -> None:

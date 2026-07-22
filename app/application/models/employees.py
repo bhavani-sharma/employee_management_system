@@ -29,7 +29,6 @@ class EmployeeBase(BaseModel):
     pan_number: str 
     emergency_contact_number:str
     emergency_contact_name: str
-
     @field_validator("joining_date", "date_of_birth", mode="before")
     @classmethod
     def parse_date(cls, value):
@@ -96,8 +95,7 @@ class EmployeeCreate(EmployeeBase):
                     status_code= status.HTTP_400_BAD_REQUEST, 
                     detail = "Date must be in YYYY-MM-DD format only"
                 )
-        return value
-
+    #     return value
 
 class EmployeeUpdate(BaseModel):
     name: Optional[str] = None

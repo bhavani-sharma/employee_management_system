@@ -13,7 +13,7 @@ class DeleteEmployeeService:
         self.get_service = GetEmployeeService(repository)
 
     def execute(self, employee_id: str, current_user: Users) -> None:
-        employee = self.get_service.execute(employee_id)
+        employee = self.get_service.execute(employee_id, current_user)
  
         if current_user.emp_id == employee_id:
             raise CannotDeleteOwnProfileError("You cannot delete the employee record linked to your own account")

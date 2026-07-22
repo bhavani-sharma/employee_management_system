@@ -1,7 +1,9 @@
 from typing import Optional, List, Tuple
 import application.models.employees as employees
 import infrastructure.schemas.employee_schema as emp_schema
-# from common.data.database import get_db 
+
+
+
 
 accepted_roles = ["HR", "Manager", "Admin"]
 class Employee_repository:
@@ -16,6 +18,10 @@ class Employee_repository:
 
     def create(self, data:employees.EmployeeCreate)->emp_schema.Employee:
         new_emp = emp_schema.Employee(**data.model_dump())
+        if new_emp.role in accepted_roles or new_emp.department =="HR":
+            new_emp.is_eligible=True
+        else:
+            new_emp.is_eligible = False
         self.db.add(new_emp)
         self.db.commit()
         self.db.refresh(new_emp)
@@ -28,16 +34,20 @@ class Employee_repository:
     #         date_of_birth= new_emp.date_of_birth.strftime("%d-%m-%Y"),
     #     )
 
-    def update(self, employee: emp_schema.Employee, data:employees.EmployeeUpdate)-> emp_schema.Employee:
+    def update(self, employee: emp_schema.Employee, data:employees.EmployeeUpdate, user_repo)-> emp_schema.Employee:
         if data.role in accepted_roles or data.department == 'HR':
             employee.is_eligible = True
         else:
             employee.is_eligible = False
+        
+        if not employee.is_eligible and user_repo.get_by_id(employee.emp_id):
+            user_repo.delete(employee.email)
         for field, value in data.model_dump().items():
             setattr(employee, field, value)
         self.db.commit()
         self.db.refresh(employee)
         return employee
+
 
     def delete(self,employee: emp_schema.Employee)->None:
         self.db.delete(employee)
