@@ -1,16 +1,17 @@
 from fastapi import FastAPI
-from app.common.data.base import Base
-from app.common.data.database import engine
-from app.endpoints import emp_endpoints
-from app.endpoints import user_endpoints
-from app.common.exceptions.exception_handlers import ExceptionHandlers
-from app.common.logging.middleware import RequestLoggingMiddleware
-
-from app.common.logging.logging_config import configure_logging
+from common.data.base import Base
+from common.data.database import engine
+from endpoints import emp_endpoints
+from endpoints import user_endpoints
+from common.exceptions.exception_handlers import ExceptionHandlers
+from common.logging.middleware import RequestLoggingMiddleware
+from dotenv import load_dotenv
+from common.logging.logging_config import configure_logging
 
 import logging
-
+load_dotenv()
 configure_logging()
+
 logger = logging.getLogger("app")
 
 Base.metadata.create_all(bind = engine)

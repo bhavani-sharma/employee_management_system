@@ -1,8 +1,8 @@
-from app.application.models.users import UserRequest
-from app.infrastructure.repositories.user_repositories import User_repository
-from app.application.services.users_service.sign_in import SignInService
-from app.application.services.users_service.sign_up import SignUpService
-from app.infrastructure.repositories.employee_repositories import Employee_repository
+from application.models.users import UserRequest
+from infrastructure.repositories.user_repositories import User_repository
+from application.services.users_service.sign_in import SignInService
+from application.services.users_service.sign_up import SignUpService
+from infrastructure.repositories.employee_repositories import Employee_repository
 class UserServices:
     def __init__(self, db):
         self.db = db

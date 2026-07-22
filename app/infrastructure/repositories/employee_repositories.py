@@ -1,6 +1,6 @@
 from typing import Optional, List, Tuple
-import app.application.models.employees as employees
-import app.infrastructure.schemas.employee_schema as emp_schema
+import application.models.employees as employees
+import infrastructure.schemas.employee_schema as emp_schema
 # from common.data.database import get_db 
 
 accepted_roles = ["HR", "Manager", "Admin"]

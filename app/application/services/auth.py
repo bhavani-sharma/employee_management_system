@@ -5,15 +5,17 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import JWTError, jwt
 import bcrypt
 from sqlalchemy.orm import Session
-import os
+import os 
 from dotenv import load_dotenv
-from app.common.data.database import get_db
-import app.infrastructure.schemas.user_schema as userSchema
+from common.data.database import get_db
+import infrastructure.schemas.user_schema as userSchema
+
 
 load_dotenv()
+
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = 'HS256'
-ACCESS_TOKEN_EXPIRES_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRES_MINUTES"))
+ACCESS_TOKEN_EXPIRES_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 security = HTTPBearer()
 

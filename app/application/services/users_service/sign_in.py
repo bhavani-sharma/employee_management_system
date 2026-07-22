@@ -1,6 +1,6 @@
-from app.application.services import auth
-from app.common.exceptions.exceptions import InvalidCredentialsError
-from app.infrastructure.repositories.user_repositories import User_repository
+from application.services import auth
+from common.exceptions.exceptions import InvalidCredentialsError
+from infrastructure.repositories.user_repositories import User_repository
 
 class SignInService:
     def __init__(self, repository: User_repository):

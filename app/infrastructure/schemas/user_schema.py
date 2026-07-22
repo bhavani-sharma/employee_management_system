@@ -1,4 +1,4 @@
-from app.common.data.base import Base
+from common.data.base import Base
 
 from sqlalchemy import ForeignKey, Column, Integer, String
 

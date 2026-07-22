@@ -1,14 +1,14 @@
-import app.application.models.employees as Employees
+import application.models.employees as Employees
 from sqlalchemy.orm import Session
-import app.infrastructure.schemas.employee_schema as empschema
-from app.infrastructure.schemas.user_schema import Users
-from app.infrastructure.repositories.employee_repositories import Employee_repository
+import infrastructure.schemas.employee_schema as empschema
+from infrastructure.schemas.user_schema import Users
+from infrastructure.repositories.employee_repositories import Employee_repository
 from typing import List, Tuple
 from datetime import date
-from app.application.services.emp_service.create_emp import CreateEmployeeService
-from app.application.services.emp_service.retrieve_emp import GetEmployeeService
-from app.application.services.emp_service.update_emp import UpdateEmployeesService
-from app.application.services.emp_service.delete_emp import DeleteEmployeeService
+from application.services.emp_service.create_emp import CreateEmployeeService
+from application.services.emp_service.retrieve_emp import GetEmployeeService
+from application.services.emp_service.update_emp import UpdateEmployeesService
+from application.services.emp_service.delete_emp import DeleteEmployeeService
 
 # repo = Employee_repository()
 
@@ -20,19 +20,19 @@ class CreateEmployee:
         self.update = UpdateEmployeesService(repo)
         self.delete = DeleteEmployeeService(repo)
 
-    def create_employee(self, payload: Employees.EmployeeCreate) -> empschema.Employee:
-        return self.create.execute(payload)
+    def create_employee(self, payload: Employees.EmployeeCreate, current_user:Users) -> empschema.Employee:
+        return self.create.execute(payload, current_user)
  
-    def get_employee(self, employee_id: str) -> empschema.Employee:
-        return self.retrieve.execute(employee_id)
+    def get_employee(self, employee_id: str, current_user:Users) -> empschema.Employee:
+        return self.retrieve.execute(employee_id, current_user)
     
 
-    def list_employees(self, page: int, page_size: int) -> Tuple[List[empschema.Employee], int]:
-        return self.retrieve.list_employees(page, page_size)
+    def list_employees(self, page: int, page_size: int, current_user: Users) -> Tuple[List[empschema.Employee], int]:
+        return self.retrieve.list_employees(page, page_size, current_user)
  
 
-    def update_employee(self, employee_id: int, payload: Employees.EmployeeUpdate) -> empschema.Employee:
-        return self.update.execute(employee_id, payload)
+    def update_employee(self, employee_id: int, payload: Employees.EmployeeUpdate, current_user:Users) -> empschema.Employee:
+        return self.update.execute(employee_id, payload, current_user)
     
 
     def delete_employee(self, employee_id: str, current_user: Users) -> None:

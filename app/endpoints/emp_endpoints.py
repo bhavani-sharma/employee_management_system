@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 # from sqlalchemy.ext.asyncio import AsyncSession
-from app.application.services.emp_service.employee_service import CreateEmployee
+from application.services.emp_service.employee_service import CreateEmployee
 from math import ceil
-from app.infrastructure.dependencies import get_employee_service
-from app.common.exceptions.exceptions import EmployeeAlreadyExistsError, EmployeeNotFoundError
-from app.infrastructure.schemas.user_schema import Users
-from app.application.models.employees import EmployeeCreate, EmployeeResponse, EmployeeUpdate, PaginatedEmployees
-from app.application.services import auth
+from infrastructure.dependencies import get_employee_service
+from common.exceptions.exceptions import EmployeeAlreadyExistsError, EmployeeNotFoundError
+from infrastructure.schemas.user_schema import Users
+from application.models.employees import EmployeeCreate, EmployeeResponse, EmployeeUpdate, PaginatedEmployees
+from application.services import auth
 
 router = APIRouter(prefix="/employees", tags=["employees"])
 #create employee
@@ -16,13 +16,13 @@ router = APIRouter(prefix="/employees", tags=["employees"])
     status_code=status.HTTP_201_CREATED
 )
 def create_emp(
-    emp: EmployeeCreate = Depends(),
+    emp: EmployeeCreate,
     # db: Session = Depends(get_db),
     service: CreateEmployee = Depends(get_employee_service),
     current_user: Users = Depends(auth.get_current_user),
 ):
     try:
-        return service.create_employee(emp)
+        return service.create_employee(emp, current_user)
     except EmployeeAlreadyExistsError as err:
         raise HTTPException(status_code=404, detail=str(err))
 
@@ -37,7 +37,7 @@ def list_employees(
     current_user: Users = Depends(auth.get_current_user),
 
 ):
-    items, total = service.list_employees(page, page_size)
+    items, total = service.list_employees(page, page_size, current_user)
     total_pages = ceil(total/page_size) if total else 0
     return PaginatedEmployees(
         items= items,
@@ -53,7 +53,7 @@ def list_employees(
 def get_employee_by_id(employee_id: str, service: CreateEmployee = Depends(get_employee_service),
     current_user:Users = Depends(auth.get_current_user)):
     try:
-        return service.get_employee(employee_id)
+        return service.get_employee(employee_id, current_user)
     except EmployeeNotFoundError as err:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(err))
 
@@ -67,7 +67,7 @@ def update(
     current_user: Users = Depends(auth.get_current_user)
 ):
     try:
-        return service.update_employee(employee_id,payload)
+        return service.update_employee(employee_id,payload, current_user)
     except EmployeeNotFoundError as err:
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail=str(err))
     

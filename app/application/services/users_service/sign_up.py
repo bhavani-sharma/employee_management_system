@@ -1,10 +1,10 @@
-from app.application.models.users import UserRequest
-from app.common.exceptions.exceptions import (
+from application.models.users import UserRequest
+from common.exceptions.exceptions import (
     EmployeeNotFoundError,
     EmployeeAlreadyHasUserError,
     EmployeeNotEligibleError,
 )
-from app.infrastructure.repositories.user_repositories import User_repository
+from infrastructure.repositories.user_repositories import User_repository
 class SignUpService:
     def __init__(self, repository: User_repository):
         self.repository = repository

@@ -1,7 +1,7 @@
 from typing import Optional
 from sqlalchemy.orm import Session
-import app.infrastructure.schemas.user_schema as users
-from app.application.services.auth import hash_password
+import infrastructure.schemas.user_schema as users
+from application.services.auth import hash_password
 
 
 class User_repository:

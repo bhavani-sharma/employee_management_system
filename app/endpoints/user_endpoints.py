@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, status      
-import app.application.models.users as models
-import app.application.models.tokens as tokens
-from app.common.exceptions.exceptions import (
+import application.models.users as models
+import application.models.tokens as tokens
+from common.exceptions.exceptions import (
     EmployeeAlreadyHasUserError,
     EmployeeNotEligibleError,
     EmployeeNotFoundError,
     InvalidCredentialsError,
 )
-from app.application.services.users_service.user_service import UserServices
-from app.infrastructure.dependencies import get_user_service
+from application.services.users_service.user_service import UserServices
+from infrastructure.dependencies import get_user_service
 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -29,7 +29,7 @@ def signup(payload:models.UserResponse = Depends(),service: UserServices = Depen
 @router.post("/signin", response_model=tokens.Token)
 def signin(form_data: models.UserLogin= Depends(),service: UserServices = Depends(get_user_service)):
     try:
-        access_token = service.user_signin(form_data.username, form_data.password)
+        access_token = service.user_signin(form_data.email, form_data.password)
     except InvalidCredentialsError:
         raise InvalidCredentialsError
     return tokens.Token(access_token=access_token)

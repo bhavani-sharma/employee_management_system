@@ -45,11 +45,9 @@ LOGGING_CONFIG: Dict[str, Any] =  {
     "loggers": {
         # The app's own logger namespace (main, services, exception handlers, ...)
         "app": {"handlers": ["default"], "level": "INFO", "propagate": False},
-        # Uvicorn's own loggers, reconfigured to use the same JSON handler
-        # instead of their default colorized plain-text formatters.
-        "uvicorn": {"handlers": ["default"], "level": "INFO", "propagate": False},
-        "uvicorn.error": {"handlers": ["default"], "level": "INFO", "propagate": False},
-        "uvicorn.access": {"handlers": ["default"], "level": "INFO", "propagate": False},
+        "uvicorn": {"handlers": [], "level": "INFO", "propagate": False},
+        "uvicorn.error": {"handlers": [], "level": "INFO", "propagate": False},
+        "uvicorn.access": {"handlers": [], "level": "INFO", "propagate": False},
     },
 }
 

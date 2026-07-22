@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from typing import Dict, Type
 import logging
-from app.common.exceptions.exceptions import (CannotDeleteOwnProfileError, 
+from common.exceptions.exceptions import (CannotDeleteOwnProfileError, 
                                EmployeeAlreadyExistsError,
                                EmployeeAlreadyHasUserError,
                                EmployeeNotEligibleError,
