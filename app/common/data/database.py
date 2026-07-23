@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-load_dotenv()
+load_dotenv(".env")
 
 DATA_DIR = Path(__file__).resolve().parent
 DATA_DIR.mkdir(parents=True, exist_ok=True)

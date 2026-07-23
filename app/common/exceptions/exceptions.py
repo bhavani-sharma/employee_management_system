@@ -15,3 +15,6 @@ class InvalidCredentialsError(Exception):
 
 class CannotDeleteOwnProfileError(Exception):
     pass
+
+class DateFormatError(Exception):
+    pass

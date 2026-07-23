@@ -17,7 +17,7 @@ class Employee(Base):
     phone_number: Mapped[str] = mapped_column(String, unique=True)
     user = relationship('Users', back_populates='employee', cascade="all, delete-orphan")
     joining_date: Mapped[date] = mapped_column(Date, nullable=False)
-    date_of_birth: Mapped[date] = mapped_column(Date, nullable=False , default=date(2008,1,1))
+    date_of_birth: Mapped[date] = mapped_column(Date, nullable=False , system_default=date(2008,1,1))
     is_eligible = Column(Boolean, default=False, nullable=False)
     blood_group : Mapped[str] = mapped_column(String, nullable=True)
     address : Mapped[str] = mapped_column(String)

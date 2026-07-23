@@ -1,12 +1,11 @@
 from pydantic import BaseModel, Field, ConfigDict, EmailStr, field_validator
 from typing import Optional, List
 from datetime import date, datetime
-from fastapi import HTTPException, status
-
+from common.exceptions.exceptions import DateFormatError
 class EmployeeBase(BaseModel):
     emp_id: str = Field(
         ...,
-        pattern=r"^I-\d+$",
+        pattern=r"^I-[0-9][0-9][0-9]$",
         description="Employee ID in the format I-<number>"
     )
     name: str = Field(..., description="Employee full name")
@@ -38,11 +37,8 @@ class EmployeeBase(BaseModel):
             value = value.strip()
             try:
                 return date.fromisoformat(value)
-            except ValueError:
-                raise HTTPException(
-                    status_code= status.HTTP_400_BAD_REQUEST, 
-                    detail = "Date must be in YYYY-MM-DD format only"
-                )
+            except DateFormatError:
+                raise DateFormatError("Date should be in YYYY-MM_DD format only")
         return value
 
 
@@ -50,7 +46,7 @@ class EmployeeCreate(EmployeeBase):
     emp_id: str = Field(
         ...,
         pattern=r"^I-[0-9][0-9][0-9]$",
-        description="Employee ID in the format I-<number>",
+        description="Employee ID in the format I-000",
         example="I-001"
     )
     name: str = Field(..., description="Employee full name")
@@ -81,21 +77,15 @@ class EmployeeCreate(EmployeeBase):
             return value.date()
         val = datetime.strptime(value, "%Y-%m-%d").date()
         if val > date.today():
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail = "Date cannot be in the future"
-            )
+            raise DateFormatError("Date cannot be in the future")
         
         if isinstance(value, str):
             value = value.strip()
             try:
                 return date.fromisoformat(value)
             except ValueError:
-                raise HTTPException(
-                    status_code= status.HTTP_400_BAD_REQUEST, 
-                    detail = "Date must be in YYYY-MM-DD format only"
-                )
-    #     return value
+                raise DateFormatError("Date should be in YYYY-MM-DD format only")
+        return value
 
 class EmployeeUpdate(BaseModel):
     name: Optional[str] = None

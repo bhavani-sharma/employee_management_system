@@ -7,7 +7,8 @@ from common.exceptions.exceptions import (CannotDeleteOwnProfileError,
                                EmployeeAlreadyHasUserError,
                                EmployeeNotEligibleError,
                                EmployeeNotFoundError,
-                               InvalidCredentialsError
+                               InvalidCredentialsError,
+                               DateFormatError
 )
 
 logger = logging.getLogger("app.exceptions")
@@ -46,6 +47,7 @@ class ExceptionHandlers:
     EmployeeAlreadyHasUserError: status.HTTP_400_BAD_REQUEST,
     CannotDeleteOwnProfileError: status.HTTP_403_FORBIDDEN,
     InvalidCredentialsError: status.HTTP_401_UNAUTHORIZED,
+    DateFormatError: status.HTTP_400_BAD_REQUEST,
 
 }
     def register(self, app: FastAPI)->None:
