@@ -1,0 +1,10 @@
+__pychache__/
+*.pyc 
+*.pyo 
+*.db
+.venv/
+venv/
+.env
+.env.docker
+.DS_Store
+.ruff_cache
