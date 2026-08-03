@@ -53,7 +53,9 @@ class UpdateServiceHandler(UpdateService):
         # update employee.is_eligible
         role = payload.role if payload.role is not None else employee.role
         department = (
-            payload.department if payload.department is not None else employee.department
+            payload.department
+            if payload.department is not None
+            else employee.department
         )
         if role in accepted_roles or department == "HR":
             employee.is_eligible = True

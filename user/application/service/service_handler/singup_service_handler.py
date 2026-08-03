@@ -38,7 +38,6 @@ class SignUpServiceHandler(SignUpService):
                 "The email address does not match the employee ID"
             )
 
-        
         employee_by_email = self.employee_repository.get_by_email(payload.email)
         if not employee_by_email:
             raise EmployeeNotFoundError(f"Employee {payload.employee_id} not found")

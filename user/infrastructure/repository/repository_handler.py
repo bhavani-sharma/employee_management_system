@@ -3,7 +3,6 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from common.exception.exception import DatabaseOperationError
-
 from user.infrastructure.entity.entity import User
 from user.infrastructure.repository.repository import UserRepository
 
